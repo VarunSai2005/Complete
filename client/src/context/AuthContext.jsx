@@ -7,7 +7,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Load cached session
   useEffect(() => {
     const cachedUser = localStorage.getItem('user');
     const cachedToken = localStorage.getItem('token');
@@ -17,7 +16,6 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password, role) => {
-    // role is optional (server will ignore if not provided), but we pass it to validate role at login
     const { data } = await api.post('/auth/login', { email, password, role });
     setAuthToken(data.token);
     setUser(data.user);

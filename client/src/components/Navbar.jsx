@@ -14,9 +14,15 @@ export default function Navbar() {
   return (
     <nav className="nav">
       <div className="nav-left">
-        {/* <img src="https://previews.123rf.com/images/alfianiqbal/alfianiqbal2008/alfianiqbal200800237/153929348-coffee-logo-design-vector-illustration-vintage-coffee-logo-vector-design-concept-for-cafe-and.jpg"
-                  alt="NoQue Cafe Logo" className="logo" /> */}
-        <Link to="/" className="brand">NoQue Cafe</Link>
+        <Link to="/" className="brand-logo">
+          <img 
+            src="https://cdn-icons-png.flaticon.com/512/924/924514.png" 
+            alt="NoQue Cafe Logo" 
+            className="logo" 
+          />
+          <span className="brand-name">NoQue Cafe</span>
+        </Link>
+
         <NavLink to="/" className="nav-link">Menu</NavLink>
         {user && <NavLink to="/orders" className="nav-link">My Orders</NavLink>}
         {user?.role === 'admin' && <NavLink to="/admin" className="nav-link">Admin</NavLink>}

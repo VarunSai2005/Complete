@@ -4,17 +4,17 @@ import { useAuth } from '../context/AuthContext';
 import '../styles/forms.css';
 
 export default function Register() {
-  const { register } = useAuth();
-  const nav = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState('');
+  const { register } = useAuth()
+  const nav = useNavigate()
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [err, setErr] = useState('')
 
   const submit = async (e) => {
-    e.preventDefault();
-    setErr('');
+    e.preventDefault()
+    setErr('')
     setLoading(true);
     try {
       await register(name.trim(), email.trim(), password);
