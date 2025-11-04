@@ -46,6 +46,23 @@ const MONGODB_URI =
   'mongodb+srv://avenger:assemble@cluster0.rxbmgda.mongodb.net/cafeteria';
 await connectDB(MONGODB_URI);
 
+<<<<<<< HEAD
+=======
+// ✅ Parse JSON requests
+app.use(express.json());
+
+// ✅ Configure CORS safely
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',')
+  : ['*']; // default fallback
+
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+>>>>>>> 3f3e2a6a61fdadb58812bbdeead8cebfddf87f5a
 // ✅ Test route
 app.get('/', (req, res) => res.send('Cafeteria API running ✅'));
 
