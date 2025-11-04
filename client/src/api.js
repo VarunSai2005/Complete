@@ -1,13 +1,16 @@
+// frontend/src/api.js
 import axios from 'axios';
 
-// ✅ Use Render backend by default, or fallback to .env for flexibility
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://noque-server.onrender.com';
+// Use local backend in development, hosted backend in production
+const BASE_URL =
+  import.meta.env.MODE === 'development'
+    ? 'http://localhost:5000'
+    : 'https://noque-server.onrender.com';
 
 export const api = axios.create({
   baseURL: BASE_URL + '/api',
 });
 
-// ✅ Auth token helper
 export const setAuthToken = (token) => {
   if (token) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -18,6 +21,5 @@ export const setAuthToken = (token) => {
   }
 };
 
-// ✅ Load existing token (if user was already logged in)
 const existing = localStorage.getItem('token');
 if (existing) setAuthToken(existing);

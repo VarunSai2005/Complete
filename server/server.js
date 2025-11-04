@@ -1,3 +1,4 @@
+// backend/server.js
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -7,70 +8,43 @@ import itemRoutes from './routes/items.js';
 import orderRoutes from './routes/orders.js';
 
 dotenv.config();
+
 const app = express();
-
-// ✅ JSON parser
-app.use(express.json());
-
-// ✅ CORS setup — allow frontend on Render & local dev
-// const allowedOrigins = [
-//   'https://noque-frontend.onrender.com', // your Render frontend URL
-//   'http://localhost:5173', // local dev
-// ];
-
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error('CORS not allowed'));
-//       }
-//     },
-//     credentials: true,
-//   })
-// );
-app.use(cors({
-  origin: [
-    'https://noque-ui.onrender.com', // your frontend
-    'http://localhost:5173'          // for local testing (optional)
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-
-// ✅ MongoDB Connection
+const PORT = process.env.PORT || 5000;
 const MONGODB_URI =
   process.env.MONGODB_URI ||
   'mongodb+srv://avenger:assemble@cluster0.rxbmgda.mongodb.net/cafeteria';
-await connectDB(MONGODB_URI);
 
-<<<<<<< HEAD
-=======
-// ✅ Parse JSON requests
+// Connect to MongoDB
+connectDB(MONGODB_URI);
+
+// Middlewares
 app.use(express.json());
 
-// ✅ Configure CORS safely
-const allowedOrigins = process.env.CORS_ORIGIN
-  ? process.env.CORS_ORIGIN.split(',')
-  : ['*']; // default fallback
+// Configure CORS - allow common methods + Authorization header.
+// Adjust origin for production if you want to restrict to your frontend domain.
+app.use(
+  cors({
+    origin: '*', // change to your frontend origin in production, e.g. "https://my-site.com"
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
-app.use(cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
+// Simple health/test route
+app.get('/', (req, res) => res.send('☕ Cafeteria API running successfully!'));
 
->>>>>>> 3f3e2a6a61fdadb58812bbdeead8cebfddf87f5a
-// ✅ Test route
-app.get('/', (req, res) => res.send('Cafeteria API running ✅'));
-
-// ✅ Main routes
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemRoutes);
 app.use('/api/orders', orderRoutes);
 
-// ✅ Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+// Global error handler (simple)
+app.use((err, req, res, next) => {
+  console.error(err);
+  const status = err.status || 500;
+  res.status(status).json({ message: err.message || 'Server error' });
+});
+
+// Start server
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
