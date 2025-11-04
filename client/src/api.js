@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "https://noque-backend.onrender.com"
+const BASE_URL = "https://noque-server.onrender.com/"
 
 export const api = axios.create({
   baseURL: BASE_URL + '/api',
