@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors({ origin: process.env.CORS_ORIGIN?.split(',') || '*', credentials: true }));
 
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/cafeteria';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://avenger:assemble@cluster0.rxbmgda.mongodb.net/cafeteria';
 await connectDB(MONGODB_URI);
 
 app.get('/', (req, res) => res.send('Cafeteria API running'));
